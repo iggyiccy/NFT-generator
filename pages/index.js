@@ -4,10 +4,6 @@ import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
 import Greeter from "../src/artifacts/contracts/Greeter.sol/Greeter.json";
 import { Form, Field } from "react-final-form";
-import {
-  getChoices,
-  getQuestions,
-} from "@alheimsins/b5-johnson-120-ipip-neo-pi-r";
 
 export default function Home() {
   const [greeting, setGreetingState] = useState("");
@@ -23,6 +19,9 @@ export default function Home() {
       }, 1000);
     });
   };
+  const questions = require("./question.json");
+  const scale = require("./scale.json");
+  const score = require("./score.json");
 
   // If wallet is already connected...
   useEffect(() => {
@@ -98,6 +97,18 @@ export default function Home() {
     setNewGreetingState("");
   }
 
+  // function autoCheckRadioButton() {
+  //   var radios = document.querySelectorAll("input[type=radio]");
+  //   for (var i = 0; i < radios.length; i++) {
+  //     var randomNumber = Math.random() * 10 > 5;
+  //     radios[i].checked = randomNumber ? true : false;
+  //   }
+  // }
+
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   return (
     <div className="max-w-lg mt-36 mx-auto text-center px-4">
       <Head>
@@ -122,6 +133,7 @@ export default function Home() {
                 <p className="text-md">{connectedWalletAddress}</p>
               )}
             </div>
+            {/* <button onClick={autoCheckRadioButton}>Auto Fill</button> */}
             <Form
               onSubmit={onSubmit}
               render={({
@@ -132,111 +144,58 @@ export default function Home() {
                 submitting,
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <div class="inline-flex mt-4">
-                    <label class="text-gray-700">Best Stooge</label>
-                    <div class="ml-4 ">
-                      <label class="inline-flex items-center">
-                        <Field
-                          class="form-radio h-5 w-5 text-purple-600"
-                          name="stooge"
-                          component="input"
-                          type="radio"
-                          value="larry"
-                        />{" "}
-                        <span class="ml-2 text-gray-700">Larry</span>
-                      </label>
+                  {questions.map((question) => (
+                    <div key={question.index} className="inline-flex mt-4">
+                      {question.question}
+                      {score.map((scores) => (
+                        <label
+                          id="radioButton"
+                          key={scores.Score}
+                          className="inline-flex items-center ml-4"
+                        >
+                          <Field
+                            name={question.question}
+                            component="input"
+                            type="radio"
+                            className="form-radio h-5 w-5 text-purple-600"
+                            value={scores.Score}
+                            defaultValue={randomIntFromInterval(1, 5)}
+                            // checked
+                          />
+                          {/* <span className="ml-2 text-gray-700">
+                            {scores.Description}
+                          </span> */}
+                        </label>
+                      ))}
                     </div>
-                    <div class="ml-4 ">
-                      <label class="inline-flex items-center">
-                        <Field
-                          class="form-radio h-5 w-5 text-purple-600"
-                          name="stooge"
-                          component="input"
-                          type="radio"
-                          value="larry"
-                        />{" "}
-                        <span class="ml-2 text-gray-700">Larry</span>
-                      </label>
-                    </div>
-                    <div class="ml-4 ">
-                      <label class="inline-flex items-center">
-                        <Field
-                          class="form-radio h-5 w-5 text-purple-600"
-                          name="stooge"
-                          component="input"
-                          type="radio"
-                          value="larry"
-                        />{" "}
-                        <span class="ml-2 text-gray-700">Larry</span>
-                      </label>
-                    </div>
+                  ))}
+                  {/* <pre className="mt-4 mb-4">
+                    {JSON.stringify(values, 0, 2)}
+                  </pre> */}
+                  <div className="mt-8">
+                    <button
+                      className="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl"
+                      type="submit"
+                      disabled={pristine || submitting}
+                    >
+                      Submit
+                    </button>
                   </div>
-                  <pre class="mt-4 mb-4">{JSON.stringify(values, 0, 2)}</pre>
-                  <button type="submit" disabled={pristine || submitting}>
-                    Submit
-                  </button>
-                  <button
-                    class="ml-4"
-                    type="button"
-                    onClick={form.reset}
-                    disabled={pristine || submitting}
-                  >
-                    Reset
-                  </button>
                 </form>
               )}
             />
-            <div className="space-y-8">
-              <div className="flex flex-col space-y-4">
-                <input
-                  className="border p-4 w-100 text-center"
-                  placeholder="A fetched greeting will show here"
-                  value={greeting}
-                  disabled
-                />
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-md w-full"
-                  onClick={fetchGreeting}
-                >
-                  Fetch greeting from the blockchain
-                </button>
-              </div>
-              <div className="space-y-8">
-                <div className="flex flex-col space-y-4">
-                  <input
-                    className="border p-4 text-center"
-                    onChange={(e) => setNewGreetingState(e.target.value)}
-                    placeholder="Write a new greeting"
-                    ref={newGreetingInputRef}
-                  />
-                  <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-md"
-                    onClick={setGreeting}
-                  >
-                    Set new greeting on the blockchain
-                  </button>
-                  <div className="h-2">
-                    {newGreetingMessage && (
-                      <span className="text-sm text-gray-500 italic">
-                        {newGreetingMessage}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
           </>
         )}
       </main>
 
       <footer className="mt-20">
         <a
-          href="https://github.com/tomhirst/solidity-nextjs-starter/blob/main/README.md"
+          href="http://rchow.dev"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 hover:text-blue-700"
         >
-          Read the docs
+          Source code on GitHub
         </a>
       </footer>
     </div>

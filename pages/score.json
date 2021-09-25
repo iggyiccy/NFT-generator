@@ -1,0 +1,22 @@
+[
+  {
+    "Score": 1,
+    "Description": "Strongly dislike"
+  },
+  {
+    "Score": 2,
+    "Description": "Dislike"
+  },
+  {
+    "Score": 3,
+    "Description": "Neutral"
+  },
+  {
+    "Score": 4,
+    "Description": "Like"
+  },
+  {
+    "Score": 5,
+    "Description": "Strongly like"
+  }
+]

@@ -30,6 +30,7 @@
 
 ## Resources
 
+- Oregon Vocational Interest Scales (ORVIS): https://ipip.ori.org/newORVISSurvey.htm
 - Kit: https://surveyjs.io/Library
 - CSS: https://github.com/marshmallow-insurance/smores-react
 - CSS: https://tailwindcss.com/
