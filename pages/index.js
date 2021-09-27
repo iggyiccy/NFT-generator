@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
 import Greeter from "../src/artifacts/contracts/Greeter.sol/Greeter.json";
 import { Form, Field } from "react-final-form";
+import { questions } from "../data/question";
 
 export default function Home() {
   const [greeting, setGreetingState] = useState("");
@@ -20,9 +21,6 @@ export default function Home() {
       }, 1000);
     });
   };
-  const questions = require("./question.json");
-  const scale = require("./scale.json");
-  const score = require("./score.json");
 
   // If wallet is already connected...
   useEffect(() => {
@@ -240,6 +238,7 @@ export default function Home() {
                       </div>
                     </div>
                   ))}
+                  <pre class="mt-4 mb-4">{JSON.stringify(values, 0, 2)}</pre>
                   <div className="mt-10 text-center">
                     <Link href="/result">
                       <button

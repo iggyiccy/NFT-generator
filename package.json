@@ -17,6 +17,7 @@
     "ethers": "^5.4.3",
     "final-form": "^4.20.2",
     "next": "11.1.0",
+    "pokemontcgsdk": "^2.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-final-form": "^6.5.3"

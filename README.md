@@ -31,13 +31,9 @@
 ## Resources
 
 - Oregon Vocational Interest Scales (ORVIS): https://ipip.ori.org/newORVISSurvey.htm
-- Kit: https://surveyjs.io/Library
-- CSS: https://github.com/marshmallow-insurance/smores-react
 - CSS: https://tailwindcss.com/
 - API: https://docs.pokemontcg.io/api-reference/cards/search-cards/
 - Out of the box tools: https://github.com/tomhirst/solidity-nextjs-starter
-- Personality Test: https://app.traitify.com/developer
-- Personality Test: https://cloud.ibm.com/apidocs/personality-insights
 - Rarible for royalities: https://www.youtube.com/watch?v=E5VNUoTPdH0
 - The Graph for indexing: https://www.youtube.com/watch?v=QRljLAbpfPI
 - Skynet for front-end deployment: https://www.youtube.com/watch?v=rK8diBGeXeg
