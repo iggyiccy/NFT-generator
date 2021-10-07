@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
@@ -138,29 +139,34 @@ export default function Home() {
                   className=" bg-white shadow rounded-lg p-10"
                 >
                   <div className="grid gap-3 grid-cols-5 mb-10">
-                    <img
+                    <Image
                       src="/angry-1991061.svg"
-                      className="h-8 w-8"
+                      width={40}
+                      height={40}
                       alt="1.angry"
                     />
-                    <img
+                    <Image
                       src="/sad-1991063.svg"
-                      className="h-8 w-8"
+                      width={40}
+                      height={40}
                       alt="2.sad"
                     />
-                    <img
+                    <Image
                       src="/care-1991058.svg"
-                      className="h-8 w-8"
+                      width={40}
+                      height={40}
                       alt="3.care"
                     />
-                    <img
+                    <Image
                       src="/like-1991059.svg"
-                      className="h-8 w-8"
+                      width={40}
+                      height={40}
                       alt="4.like"
                     />
-                    <img
+                    <Image
                       src="/love-1991064.svg"
-                      className="h-8 w-8"
+                      width={40}
+                      height={40}
                       alt="5.love"
                     />
                   </div>
@@ -179,7 +185,7 @@ export default function Home() {
                             name={question.question}
                             component="input"
                             type="radio"
-                            className="form-radio h-5 w-5 text-purple-600 hover:text-purple-400"
+                            className="form-radio h-5 w-5 ml-7 text-purple-600 hover:text-purple-400"
                             value="1"
                           />
                         </label>
@@ -192,7 +198,7 @@ export default function Home() {
                             name={question.question}
                             component="input"
                             type="radio"
-                            className="form-radio h-5 w-5 text-purple-600 hover:text-purple-400"
+                            className="form-radio h-5 w-5 ml-7  text-purple-600 hover:text-purple-400"
                             value="2"
                           />
                         </label>
@@ -205,7 +211,7 @@ export default function Home() {
                             name={question.question}
                             component="input"
                             type="radio"
-                            className="form-radio h-5 w-5 text-purple-600 hover:text-purple-400"
+                            className="form-radio h-5 w-5 ml-6  text-purple-600 hover:text-purple-400"
                             value="3"
                           />
                         </label>
@@ -218,7 +224,7 @@ export default function Home() {
                             name={question.question}
                             component="input"
                             type="radio"
-                            className="form-radio h-5 w-5 text-purple-600 hover:text-purple-400"
+                            className="form-radio h-5 w-5 ml-6  text-purple-600 hover:text-purple-400"
                             value="4"
                           />
                         </label>
@@ -231,14 +237,14 @@ export default function Home() {
                             name={question.question}
                             component="input"
                             type="radio"
-                            className="form-radio h-5 w-5 text-purple-600 hover:text-purple-400"
+                            className="form-radio h-5 w-5 ml-5  text-purple-600 hover:text-purple-400"
                             value="5"
                           />
                         </label>
                       </div>
                     </div>
                   ))}
-                  <pre class="mt-4 mb-4">{JSON.stringify(values, 0, 2)}</pre>
+                  // <pre class="mt-4 mb-4">{JSON.stringify(values, 0, 2)}</pre>
                   <div className="mt-10 text-center">
                     <Link href="/result">
                       <button
