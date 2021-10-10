@@ -1,15 +1,12 @@
-import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { hasEthereum } from "../utils/ethereum";
-import { matchCard } from "./result/[cardId]/matchCard";
+import { hasEthereum } from "../../../utils/ethereum";
+import Head from "next/head";
+import { matchCard } from "./matchCard";
 import axios from "axios";
 
-export default function Result() {
-  const cardId = 200;
-  const cardPersonality = matchCard[cardId - 1].Personality;
-  const cardName = matchCard[cardId - 1].Name;
-  const cardRarity = matchCard[cardId - 1].Rarity;
+const Result = () => {
   const [connectedWalletAddress, setConnectedWalletAddressState] = useState("");
   useEffect(() => {
     if (!hasEthereum()) {
@@ -29,6 +26,12 @@ export default function Result() {
     }
     setConnectedWalletAddress();
   }, []);
+
+  const router = useRouter();
+  const { cardId } = router.query;
+  const cardPersonality = matchCard[cardId - 1].Personality;
+  const cardName = matchCard[cardId - 1].Name;
+  const cardRarity = matchCard[cardId - 1].Rarity;
 
   function uploadMetadata(_cardId) {
     // ! Upload Metadata to IPFS
@@ -58,18 +61,21 @@ export default function Result() {
       },
       json: true,
     };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    axios.request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+
+      console.log(body);
+      const ipfsMetadata = body.metadata_uri;
+      console.log(ipfsMetadata);
+    });
+    return ipfsMetadata;
   }
 
   function mintNft(_cardId) {
     // ! Mint NFTs to contract with Customizable Minting
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const signerAddress = signer.getAddress();
     const options = {
       method: "POST",
       url: "https://api.nftport.xyz/v0/mints/customizable",
@@ -81,46 +87,18 @@ export default function Result() {
         chain: "polygon",
         contract_address: "0xa55AA5d86Be773A17Fa5A1C3E6457062938AaDA8",
         metadata_uri: uploadMetadata(_cardId),
-        mint_to_address: "0xb21D86839C0b712B081017D833c638e8C2661016",
+        mint_to_address: signerAddress,
       },
       json: true,
     };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
+    axios.request(options, function (error, response, body) {
+      if (error) throw new Error(error);
 
-  function eastMint(_cardId) {
-    const options = {
-      method: "POST",
-      url: "https://api.nftport.xyz/v0/mints/easy/urls",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "ee4f4cfb-1c25-4292-ae00-b1f766208539",
-      },
-      data: {
-        chain: "polygon",
-        name: matchCard[_cardId - 1].Name,
-        description: "This is your personalised pokemon card",
-        file_url:
-          "https://images.pokemontcg.io/swsh7/" + _cardId + "_hires.png",
-        mint_to_address: "0xb21D86839C0b712B081017D833c638e8C2661016",
-      },
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+      console.log(body);
+      const transactionUrl = body.transaction_external_url;
+      console.log(transactionUrl);
+    });
+    return transactionUrl;
   }
 
   return (
@@ -187,4 +165,6 @@ export default function Result() {
       </footer>
     </div>
   );
-}
+};
+
+export default Result;

@@ -4,16 +4,12 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
-import Greeter from "../src/artifacts/contracts/Greeter.sol/Greeter.json";
 import { Form, Field } from "react-final-form";
 import { questions } from "../data/question";
+import createDecorator from "final-form-calculate";
 
 export default function Home() {
-  const [greeting, setGreetingState] = useState("");
-  const [newGreeting, setNewGreetingState] = useState("");
-  const [newGreetingMessage, setNewGreetingMessageState] = useState("");
   const [connectedWalletAddress, setConnectedWalletAddressState] = useState("");
-  const newGreetingInputRef = useRef();
   const onSubmit = (values) => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -42,64 +38,6 @@ export default function Home() {
     }
     setConnectedWalletAddress();
   }, []);
-
-  // Request access to MetaMask account
-  async function requestAccount() {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-  }
-
-  // Call smart contract, fetch current value
-  async function fetchGreeting() {
-    if (!hasEthereum()) {
-      setConnectedWalletAddressState(`⚠️ MetaMask unavailable`);
-      return;
-    }
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_GREETER_ADDRESS,
-      Greeter.abi,
-      provider
-    );
-    try {
-      const data = await contract.greet();
-      setGreetingState(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Call smart contract, set new value
-  async function setGreeting() {
-    if (!hasEthereum()) {
-      setConnectedWalletAddressState(`⚠️ MetaMask unavailable`);
-      return;
-    }
-    if (!newGreeting) {
-      setNewGreetingMessageState("Add a new greeting first.");
-      return;
-    }
-    await requestAccount();
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const signerAddress = await signer.getAddress();
-    setConnectedWalletAddressState(`Connected wallet: ${signerAddress}`);
-    const contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_GREETER_ADDRESS,
-      Greeter.abi,
-      signer
-    );
-    const transaction = await contract.setGreeting(newGreeting);
-    await transaction.wait();
-    setNewGreetingMessageState(
-      `Greeting updated to ${newGreeting} from ${greeting}.`
-    );
-    newGreetingInputRef.current.value = "";
-    setNewGreetingState("");
-  }
-
-  function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
 
   return (
     <div className="max-w-lg mt-36 mx-auto">
@@ -182,7 +120,13 @@ export default function Home() {
                         >
                           <Field
                             id={question.question}
-                            name={question.question}
+                            name={
+                              question.index +
+                              " " +
+                              question.scale +
+                              " - " +
+                              question.question
+                            }
                             component="input"
                             type="radio"
                             className="form-radio h-5 w-5 ml-7 text-purple-600 hover:text-purple-400"
@@ -195,7 +139,13 @@ export default function Home() {
                         >
                           <Field
                             id={question.question}
-                            name={question.question}
+                            name={
+                              question.index +
+                              " " +
+                              question.scale +
+                              " - " +
+                              question.question
+                            }
                             component="input"
                             type="radio"
                             className="form-radio h-5 w-5 ml-7  text-purple-600 hover:text-purple-400"
@@ -208,7 +158,13 @@ export default function Home() {
                         >
                           <Field
                             id={question.question}
-                            name={question.question}
+                            name={
+                              question.index +
+                              " " +
+                              question.scale +
+                              " - " +
+                              question.question
+                            }
                             component="input"
                             type="radio"
                             className="form-radio h-5 w-5 ml-6  text-purple-600 hover:text-purple-400"
@@ -221,7 +177,13 @@ export default function Home() {
                         >
                           <Field
                             id={question.question}
-                            name={question.question}
+                            name={
+                              question.index +
+                              " " +
+                              question.scale +
+                              " - " +
+                              question.question
+                            }
                             component="input"
                             type="radio"
                             className="form-radio h-5 w-5 ml-6  text-purple-600 hover:text-purple-400"
@@ -234,7 +196,13 @@ export default function Home() {
                         >
                           <Field
                             id={question.question}
-                            name={question.question}
+                            name={
+                              question.index +
+                              " " +
+                              question.scale +
+                              " - " +
+                              question.question
+                            }
                             component="input"
                             type="radio"
                             className="form-radio h-5 w-5 ml-5  text-purple-600 hover:text-purple-400"
@@ -244,7 +212,6 @@ export default function Home() {
                       </div>
                     </div>
                   ))}
-                  // <pre class="mt-4 mb-4">{JSON.stringify(values, 0, 2)}</pre>
                   <div className="mt-10 text-center">
                     <Link href="/result">
                       <button

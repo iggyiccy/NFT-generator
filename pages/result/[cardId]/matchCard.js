@@ -1,4 +1,4 @@
-[
+export const matchCard = [
   {
     No: 1,
     Name: "Pinsir",

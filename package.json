@@ -2,7 +2,6 @@
   "name": "solidity-nextjs-starter",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,6 +16,7 @@
     "dotenv": "^10.0.0",
     "ethers": "^5.4.3",
     "final-form": "^4.20.2",
+    "final-form-calculate": "^1.3.2",
     "next": "11.1.0",
     "pokemontcgsdk": "^2.0.0",
     "react": "17.0.2",
