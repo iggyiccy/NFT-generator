@@ -2,11 +2,11 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
-import { matchCard } from "./result/[cardId]/matchCard";
+import { matchCard } from "../components/matchCard";
 import axios from "axios";
 
 export default function Result() {
-  const cardId = 200;
+  const cardId = Math.floor(Math.random() * 238 + 1);
   const cardPersonality = matchCard[cardId - 1].Personality;
   const cardName = matchCard[cardId - 1].Name;
   const cardRarity = matchCard[cardId - 1].Rarity;
@@ -30,93 +30,32 @@ export default function Result() {
     setConnectedWalletAddress();
   }, []);
 
-  function uploadMetadata(_cardId) {
-    // ! Upload Metadata to IPFS
-    const options = {
-      method: "POST",
-      url: "https://api.nftport.xyz/v0/metadata",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "ee4f4cfb-1c25-4292-ae00-b1f766208539",
-      },
-      body: {
-        name: matchCard[1].name,
-        description: "This is your personalised pokemon card",
-        file_url: "https://images.pokemontcg.io/swsh7/" + _cardId + ".png",
-        attributes: [
-          { trait_type: "Rarity", value: matchCard[_cardId - 1].Rarity },
-          {
-            trait_type: "Personality",
-            value: matchCard[_cardId - 1].Personality,
-          },
-          {
-            display_type: "number",
-            trait_type: "Card Number",
-            value: matchCard[_cardId - 1].No,
-          },
-        ],
-      },
-      json: true,
-    };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-  function mintNft(_cardId) {
-    // ! Mint NFTs to contract with Customizable Minting
-    const options = {
-      method: "POST",
-      url: "https://api.nftport.xyz/v0/mints/customizable",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "ee4f4cfb-1c25-4292-ae00-b1f766208539",
-      },
-      body: {
-        chain: "polygon",
-        contract_address: "0xa55AA5d86Be773A17Fa5A1C3E6457062938AaDA8",
-        metadata_uri: uploadMetadata(_cardId),
-        mint_to_address: "0xb21D86839C0b712B081017D833c638e8C2661016",
-      },
-      json: true,
-    };
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-  function eastMint(_cardId) {
+  function eastMint() {
+    const my_key = process.env.NFT_KEY;
     const options = {
       method: "POST",
       url: "https://api.nftport.xyz/v0/mints/easy/urls",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "ee4f4cfb-1c25-4292-ae00-b1f766208539",
+        Authorization: my_key,
       },
       data: {
-        chain: "polygon",
-        name: matchCard[_cardId - 1].Name,
+        chain: "rinkeby",
+        name: matchCard[cardId - 1].Name,
         description: "This is your personalised pokemon card",
-        file_url:
-          "https://images.pokemontcg.io/swsh7/" + _cardId + "_hires.png",
+        file_url: "https://media.giphy.com/media/Z58OU83atqbOU/giphy.gif",
         mint_to_address: "0xb21D86839C0b712B081017D833c638e8C2661016",
       },
     };
 
-    axios
+    return axios
       .request(options)
       .then(function (response) {
         console.log(response.data);
+        alert(
+          "Yeah! Your NFT already been saved on chain, here is the address " +
+            response.data.transaction_external_url
+        );
       })
       .catch(function (error) {
         console.error(error);
@@ -139,6 +78,7 @@ export default function Result() {
             <div className="flex justify-center -mt-80">
               <img
                 className="w-50 h-70 object-cover rounded-lg "
+                alt="Pokemon Card Image"
                 src={
                   "https://images.pokemontcg.io/swsh7/" + cardId + "_hires.png"
                 }
@@ -161,7 +101,7 @@ export default function Result() {
             <div className="flex justify-end mt-4">
               <button
                 href="#"
-                onClick={mintNft(cardId)}
+                onClick={eastMint}
                 className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-purple-600"
               >
                 Mint Now

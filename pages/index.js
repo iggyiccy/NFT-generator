@@ -213,7 +213,7 @@ export default function Home() {
                     </div>
                   ))}
                   <div className="mt-10 text-center">
-                    <Link href="/result">
+                    <Link href="/result" passHref>
                       <button
                         component="a"
                         className="py-3 w-64 text-xl text-white bg-purple-400 hover:bg-purple-600 font-black rounded-2xl"
