@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { ethers } from "ethers";
 import { hasEthereum } from "../utils/ethereum";
@@ -77,31 +76,31 @@ export default function Home() {
                   className=" bg-white shadow rounded-lg p-10"
                 >
                   <div className="grid gap-3 grid-cols-5 mb-10">
-                    <Image
+                    <img
                       src="/angry-1991061.svg"
                       width={40}
                       height={40}
                       alt="1.angry"
                     />
-                    <Image
+                    <img
                       src="/sad-1991063.svg"
                       width={40}
                       height={40}
                       alt="2.sad"
                     />
-                    <Image
+                    <img
                       src="/care-1991058.svg"
                       width={40}
                       height={40}
                       alt="3.care"
                     />
-                    <Image
+                    <img
                       src="/like-1991059.svg"
                       width={40}
                       height={40}
                       alt="4.like"
                     />
-                    <Image
+                    <img
                       src="/love-1991064.svg"
                       width={40}
                       height={40}
