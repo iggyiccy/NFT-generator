@@ -1,4 +1,4 @@
-# Generate unique NFTs based on users' personality and zodiac
+# Generate NFTs based on Users' Personality
 
 ![](/png_image.png)
 
