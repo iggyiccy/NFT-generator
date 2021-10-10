@@ -1,6 +1,14 @@
-# !!WORK IN PROGRESS!! Generate unique NFTs based on users' personality and zodiac
+# Generate unique NFTs based on users' personality and zodiac
 
-![](https://media.giphy.com/media/WmtnVfTNbDigG32A8u/giphy-downsized-large.gif?cid=ecf05e47lmu4qzo4jux9ci9hti1ybjy0qwn0fwheznditp38&rid=giphy-downsized-large.gif&ct=g)
+![](/png_image.png)
+
+## Deployed to Fleek
+
+##### https://autumn-term-5333.on.fleek.co
+
+## Short Demo - GIF
+
+![](nft_demo.gif)
 
 ## Installation
 
