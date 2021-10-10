@@ -31,7 +31,7 @@ export default function Result() {
   }, []);
 
   function eastMint() {
-    const my_key = process.env.NFT_KEY;
+    const my_key = "ee4f4cfb-1c25-4292-ae00-b1f766208539";
     const options = {
       method: "POST",
       url: "https://api.nftport.xyz/v0/mints/easy/urls",
